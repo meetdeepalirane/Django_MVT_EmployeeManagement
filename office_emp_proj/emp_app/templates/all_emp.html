@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+{% extends 'index.html' %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Employees Database </title>
+    <link href="/static/css/mycustom.css" rel="stylesheet" type="text/css">
+
+</head>
+<body>
+{% block baseblock %}
+
+<div class="headingBlock">
+    <h4>Employee List</h4>
+</div>
+<div class="container">
+    <table>
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">First Name</th>
+            <th scope="col">Last Name</th>
+            <th scope="col">Salary</th>
+            <th scope="col">Bonus</th>
+            <th scope="col">Phone Number</th>
+            <th scope="col">Role</th>
+            <th scope="col">Department</th>
+            <th scope="col">Location</th>
+            <th scope="col">HireDate</th>
+            <th scope="col"></th>
+            <th>Actions</th>
+            <th></th>
+        </tr>
+
+        </thead>
+        <tbody>
+        {% for emp in emps %}
+        <tr>
+            <td>{{emp.id}}</td>
+            <td>{{emp.first_name}}</td>
+            <td>{{emp.last_name}}</td>
+            <td>{{emp.salary}}</td>
+            <td>{{emp.bonus}}</td>
+            <td>{{emp.phone}}</td>
+            <td>{{emp.role.name}}</td>
+            <td>{{emp.dept.name}}</td>
+            <td>{{emp.dept.location}}</td>
+            <td>{{emp.hiring_date}}</td>
+             <td>
+                <button class="btn btn-primary" name="Details" onclick="location.href='/gallery/{{emp.id}}'"
+                        type="submit">Details
+                </button>
+                <br></td>
+            <td>
+                <button class="btn btn-primary" name="Delete" onclick="location.href='/delete_emp/{{emp.id}}'"
+                        type="submit">Delete
+                </button>
+                <br></td>
+            <td>
+                <button class="btn btn-primary" name="update" onclick="location.href='/update_emp/{{emp.id}}'"
+                        type="submit">Update
+                </button>
+                <br></td>
+        </tr>
+
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+</body>
+</html>
+
+

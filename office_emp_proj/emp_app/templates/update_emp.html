@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+{% extends 'index.html' %}
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Update employees </title>
+<link rel="stylesheet" type="text/css" href="/static/css/mycustom.css">
+<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+      <script src="{% static 'js/bootstrap.min.js' %}"></script></head>
+
+</head>
+<body>
+{% block baseblock %}
+<div class="headingBlock"  >
+    <h4> Update an Employee</h4>
+</div>
+<div class="container">
+    <form id="empsform" action="/update_emp/{{employee_to_be_updated.id}}" method="post">
+        {% csrf_token %}
+        <img src="{{ employee_image_obj.img.url }}" class="img-responsive" style="width: 100%; float: left; margin-right: 10px;" />
+        <label for="empid">Emp ID</label>
+        <input type="text" disabled="disabled" id="empid" name="empid" value={{employee_to_be_updated.id}} ><br><br>
+        <label for="first_name">First Name</label>
+        <input type="text" id="first_name" name="first_name" value={{employee_to_be_updated.first_name}} ><br><br>
+        <label for="last_name">Last Name</label>
+        <input type="text" id="last_name" name="last_name" value="{{employee_to_be_updated.last_name}}"><br><br>
+        <label for="dept">Department</label>
+        <select name="dept" id="dept" >
+
+             {% for dept_name in department_names %}
+                 {% if dept_name == employee_to_be_updated.dept.name %}
+                    <option selected="{{dept_name}}">{{employee_to_be_updated.dept}}</option>
+                 {% else %}
+                    <option>{{dept_name}}</option>
+                {% endif %}
+          {% endfor%}
+        </select><br><br>
+        <label for="salary">salary</label>
+        <input type="text" id="salary" name="salary" value="{{employee_to_be_updated.salary}}"><br><br>
+        <label for="bonus">Bonus</label>
+        <input type="text" id="bonus" name="bonus" value="{{employee_to_be_updated.bonus}}"><br><br>
+        <label for="role">Role</label>
+         <select name="role" id="role">
+              {% for role_name in role_names %}
+                 {% if role_name == employee_to_be_updated.role.name %}
+                    <option selected="{{role_name}}">{{employee_to_be_updated.role}}</option>
+                 {% else %}
+                    <option>{{role_name}}</option>
+                {% endif %}
+          {% endfor%}
+         </select><br><br>
+        <label for="phone">Phone Number</label>
+        <input type="text" id="phone" name="phone" value="{{employee_to_be_updated.phone}}"><br><br>
+
+        <button type="submit" class="btn btn-primary">Update</button>
+
+    </form>
+
+</div>
+
+
+{% endblock %}
+
+
+</body>
+</html>
+
+

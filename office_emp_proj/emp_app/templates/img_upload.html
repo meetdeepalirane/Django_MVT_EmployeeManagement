@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+{% extends 'index.html' %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee_images</title>
+    <style>
+
+    </style>
+</head>
+<body>
+{% block baseblock %}
+<div class="headingBlock">
+    <h4> Employee Image Upload</h4>
+</div>
+
+    <form method = "post" enctype="multipart/form-data" id="empsform">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Upload</button>
+    </form>
+
+{% endblock %}
+</body>
+</html>
