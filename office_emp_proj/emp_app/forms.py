@@ -1,6 +1,6 @@
 from django import forms
 from django.core import validators
-from .models import Feedback_Model,EmployeeImage,Registration
+from .models import Feedback_Model,Employee_image,Registration
 
 
 class Feedbackform(forms.ModelForm):
@@ -11,10 +11,12 @@ class Feedbackform(forms.ModelForm):
 
 class imageForm(forms.ModelForm):
     class Meta:
-        model = EmployeeImage
+        model = Employee_image
         fields = ['img']
 
 class registrationform(forms.ModelForm):
     class Meta:
         model=Registration
         fields=['first_name','last_name','username','Email','password','renter_password']
+
+        widgets={'password':forms.PasswordInput(),'renter_password':forms.PasswordInput()}

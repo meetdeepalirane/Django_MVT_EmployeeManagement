@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User, auth
 from django.views.generic import TemplateView
-from .models import Employee, Role, Department, Feedback_Model, EmployeeImage,Registration
+from .models import Employee, Role, Department, Feedback_Model, Employee_image,Registration
 from _datetime import datetime
 from django.http import HttpResponse,HttpResponseRedirect
 from django.db.models import Q
@@ -49,7 +49,7 @@ def add_emp(request):
                            role=role_object, phone=phone, hiring_date=datetime.now())
         new_emp.save()
         emp_image = request.FILES.get('img')
-        emp_image_object = EmployeeImage(emp=new_emp, img=emp_image)
+        emp_image_object = Employee_image(emp=new_emp, img=emp_image)
         emp_image_object.save()
 
         return all_emp(request)
@@ -93,9 +93,11 @@ def filter_emp(request):
         dept = request.POST['dept']
         role = request.POST['role']
         emps = Employee.objects.all()
-
+        #unique_first_names = emps.values_list('first_name',flat=True).distinct()
+        #print("Distinct first names:" + str(unique_first_names.count()))
         if name:
             emps = emps.filter(Q(first_name__icontains=name) | Q(last_name__icontains=name))
+
         if dept:
             emps = emps.filter(dept__name=dept)
         if role:
@@ -119,8 +121,8 @@ def update_emp(request, emp_id=0):
                 employee_to_be_updated = Employee.objects.get(id=emp_id)
                 department_names = Department.objects.all().values_list('name', flat=True)
                 role_names=Role.objects.all().values_list('name',flat=True)
-                employee_image_obj = EmployeeImage.objects.get(emp=employee_to_be_updated)
-                print("Rohit img url is:",employee_image_obj.img.url)
+                employee_image_obj = Employee_image.objects.get(emp=employee_to_be_updated)
+
                 context = {
                     'employee_to_be_updated': employee_to_be_updated,
                     'department_names': department_names,
@@ -138,7 +140,7 @@ def update_emp(request, emp_id=0):
         bonus = int(request.POST['bonus'])
         role = request.POST['role']
         phone = int(request.POST['phone']);
-        print("Post request values are %s %s %s %s %s", emp_id, first_name, last_name, dept, salary);
+        print("Post request values are %s %s %s %s %s" %(emp_id, first_name, last_name, dept, salary));
         dept_object = Department.objects.get(name=dept)
         role_object=Role.objects.get(name=role)
         employee_to_be_updated = Employee.objects.get(id=emp_id)
@@ -207,8 +209,7 @@ def gallery(request,emp_id=0):
             employee_to_be_updated = Employee.objects.get(id=emp_id)
             department_names = Department.objects.all().values_list('name', flat=True)
             role_names = Role.objects.all().values_list('name', flat=True)
-            employee_image_obj = EmployeeImage.objects.get(emp=employee_to_be_updated)
-            print("Rohit img url is:", employee_image_obj.img.url)
+            employee_image_obj = Employee_image.objects.get(emp=employee_to_be_updated)
             context = {
                 'employee_to_be_updated': employee_to_be_updated,
                 'department_names': department_names,

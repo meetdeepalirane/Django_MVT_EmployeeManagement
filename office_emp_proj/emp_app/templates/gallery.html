@@ -20,25 +20,6 @@
 
 <a href="/all_emp" role="button">Back</a>
 
-<!--
- <table class="table" table-dark table-striped border="2" align="center" >
-    <thead>
-      <tr>
-        <th scope="col">Name</th>
-          <th scope="col">Image</th>
-      </tr>
-      </thead>
-
-     {% for i in imgs %}
-     <tbody >
-     <tr>
-         <td width="200px" ><center>{{i.emp.id}}</center></td>
-          <td width="400px"><img src="{{ i.img.url }}" class="img-responsive" style="width: 100%; float: left; margin-right: 10px;" /></td>
-      </tr>
-
-     </tbody>
-      {% endfor %}
- </table>-->
 <div class="container">
     <form id="empsform" action="/update_emp/{{employee_to_be_updated.id}}" method="post">
         {% csrf_token %}
@@ -76,8 +57,6 @@
          </select><br><br>
         <label for="phone">Phone Number</label>
         <input type="text" disabled="disabled" id="phone" name="phone" value="{{employee_to_be_updated.phone}}"><br><br>
-
-
 
     </form>
 

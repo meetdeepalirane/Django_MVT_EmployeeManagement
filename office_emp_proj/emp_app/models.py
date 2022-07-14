@@ -43,7 +43,7 @@ class Feedback_Model(models.Model):
         return "%s %d %s %s" %(self.name,self.age,self.email,self.feedback)
 
 
-class EmployeeImage(models.Model):
+class Employee_image(models.Model):
 
     emp=models.ForeignKey(Employee, on_delete=models.CASCADE,null=True, default=None)
     img = models.ImageField(upload_to='images/')
@@ -63,3 +63,4 @@ class Registration(models.Model):
 
     def __str__(self):
         return "%s %s %s %s %s %s" % (self.first_name, self.last_name,self.username,self.Email,self.password,self.renter_password)
+
