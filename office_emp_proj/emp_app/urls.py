@@ -22,6 +22,7 @@ urlpatterns = [
     path('success', success, name='success'),
     path('gallery/<int:emp_id>', views.gallery, name='gallery'),
     path('register/', views.register, name='register'),
+    path('statistics/',views.statistics,name='statistics')
 
 
 ]

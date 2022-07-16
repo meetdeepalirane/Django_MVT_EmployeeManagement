@@ -13,6 +13,7 @@ from .forms import Feedbackform, imageForm,registrationform
 from django.contrib.auth import logout
 from django.shortcuts import redirect
 import logging
+from django.db.models.aggregates import Avg,Max,Min,Count,Sum
 
 # Create your views here.
 logging.basicConfig(filename="emp_log.log",filemode='w', format='%(name)s - %(levelname)s - %(message)s',level=logging.DEBUG)
@@ -99,16 +100,25 @@ def filter_emp(request):
             emps = emps.filter(Q(first_name__icontains=name) | Q(last_name__icontains=name))
 
         if dept:
-            emps = emps.filter(dept__name=dept)
+            emps = emps.filter(dept_name=dept)
         if role:
-            emps = emps.filter(role__name=role)
+            emps = emps.filter(role_name=role)
 
         context = {
             'emps': emps
         }
         return render(request, 'all_emp.html', context)
     elif request.method == 'GET':
-        return render(request, 'filter_emp.html')
+        if request.GET.get('salary', None) is not None:
+            salary = request.GET.get('salary')
+            emps = Employee.objects.all()
+            emps = emps.filter(salary=salary)
+            context = {
+                'emps': emps
+            }
+            return render(request, 'all_emp.html', context)
+        else:
+            return render(request, 'filter_emp.html')
     else:
         return HttpResponse("Exception occurred!")
 
@@ -171,6 +181,7 @@ def feedback(request):
             form.save()
 
             return HttpResponse('<h3> Thanks for visits </h3>')
+            return redirect('/all_emp')
         else:
             print("Hey-yyy the form is invalid")
             return HttpResponse('<h3> Invalid Form retry </h3>')
@@ -243,8 +254,19 @@ def register(request):
                     #form.save()
                     user.save();
                     print("user created")
-                    return HttpResponseRedirect(redirect_to='/')
+                    return HttpResponseRedirect(redirect_to='/emps/login')
     else:
         form=registrationform()
         md = {'form': registrationform}
         return render(request,'register.html',context=md)
+
+
+def statistics(request):
+    avg=  Employee.objects.all().aggregate(Avg('salary'))
+    min = Employee.objects.all().aggregate(Min('salary'))
+    max = Employee.objects.all().aggregate(Max('salary'))
+    sum = Employee.objects.all().aggregate(Sum('salary'))
+    count = Employee.objects.all().aggregate(Count('salary'))
+
+    md={'avg':avg,'min':min,'max':max,'sum':sum,'count':count}
+    return render(request,'statistics.html', context=md)

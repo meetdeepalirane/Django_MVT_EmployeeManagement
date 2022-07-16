@@ -34,13 +34,12 @@ class Employee(models.Model):
 
 class Feedback_Model(models.Model):
     name = models.CharField(max_length=25, primary_key=True)
-    age = models.IntegerField()
-    city = models.CharField(max_length=22)
+    Address = models.CharField(max_length=22)
     email = models.EmailField()
     feedback = models.TextField()
 
     def __str__(self):
-        return "%s %d %s %s" %(self.name,self.age,self.email,self.feedback)
+        return "%s %d %s %s" %(self.name,self.Address,self.email,self.feedback)
 
 
 class Employee_image(models.Model):
